@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FrontierEval</title>
-<meta name="description" content="FrontierEval builds benchmarks for frontier AI agents. AIChipBench tests whether LLM coding agents can build correct AI accelerator hardware.">
+<meta name="description" content="FrontierEval builds benchmarks for frontier AI agents: real engineering tasks, graded against exact specifications on held-out tests.">
 <meta property="og:title" content="FrontierEval">
-<meta property="og:description" content="FrontierEval builds benchmarks for frontier AI agents. AIChipBench tests whether LLM coding agents can build correct AI accelerator hardware.">
+<meta property="og:description" content="FrontierEval builds benchmarks for frontier AI agents: real engineering tasks, graded against exact specifications on held-out tests.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A0A0A'/%3E%3Ctext x='50' y='63' font-family='Arial,sans-serif' font-size='38' font-weight='600' fill='white' text-anchor='middle'%3EFE%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -139,14 +139,19 @@ pre.bib{background:var(--d-bg);color:#e9e9e5;border-radius:12px;padding:1.3rem 1
 #copy-status{display:inline-block;margin-left:.9rem;font-size:.88rem;color:var(--ink-3)}
 
 /* index of benchmarks on the home page */
-.index{border-top:1px solid var(--ink)}
-.entry{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr) auto;gap:clamp(1rem,3vw,3rem);align-items:start;padding:1.8rem 0;border-bottom:1px solid var(--line);transition:background .2s var(--ease)}
-.entry h3{font-weight:500;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.035em;line-height:1.05;margin:0 0 .7rem}
-.entry .meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);line-height:1.8}
-.entry p{margin:0;font-size:1.02rem;color:var(--ink-2)}
-.entry .go{font-size:1.5rem;line-height:1;transition:transform .2s var(--ease)}
-a.entry:hover .go{transform:translate(3px,-3px)} a.entry:hover h3{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
-.actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+.hero.plain{padding-bottom:clamp(3.5rem,9vh,7rem)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;border-bottom:1px solid var(--ink);padding-bottom:1.1rem}
+.head h2{font-weight:500;font-size:clamp(1.8rem,3.4vw,2.8rem);letter-spacing:-.035em;line-height:1;margin:0}
+.head .count{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.bench{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,4rem);align-items:start;padding:clamp(2rem,5vh,3.5rem) 0;border-bottom:1px solid var(--line)}
+.bench:last-child{border-bottom:0;padding-bottom:0}
+.bench .no{display:flex;gap:1.4rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.bench h3{font-weight:500;font-size:clamp(2rem,4vw,3.2rem);letter-spacing:-.04em;line-height:1;margin:1rem 0 1rem}
+.bench h3 a:hover{text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:1px}
+.bench .tags{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);line-height:1.8}
+.bench p{font-size:1.06rem;color:var(--ink-2);margin:1.3rem 0 1.7rem;max-width:34em}
+.bench .links{display:flex;flex-wrap:wrap;gap:.6rem}
+.bench figure{margin:0}
 
 footer{background:var(--d-bg);color:var(--d-ink-2);padding:clamp(2.5rem,6vh,4rem) 0}
 footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem 2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
@@ -162,7 +167,7 @@ footer .c{color:var(--d-ink-3)}
   .cols{grid-template-columns:1fr} .cols>div{border-right:0;border-bottom:1px solid var(--line);padding:1.4rem 0 1.6rem} .cols>div+div{padding-left:0} .cols>div:last-child{border-bottom:0}
   .board{grid-template-columns:1fr} .panel .unit{min-height:0}
   .stats{grid-template-columns:1fr 1fr} .stats li:nth-child(2){border-right:0} .stats li:nth-child(n+3){border-top:1px solid var(--d-line)} .stats li:nth-child(3){padding-left:0}
-  .entry{grid-template-columns:1fr auto} .entry p{grid-column:1 / -1;grid-row:2}
+  .bench{grid-template-columns:1fr}
 }
 @media (max-width:560px){ .nav .links a.opt{display:none} .findings li{grid-template-columns:2.6rem minmax(0,1fr)} }
 </style>
@@ -174,38 +179,34 @@ footer .c{color:var(--d-ink-3)}
   <div class="links"><a href="#benchmarks">Benchmarks</a><a href="https://github.com/frontiereval">GitHub</a></div>
 </div></nav>
 
-<header class="hero" id="top"><div class="container">
+<header class="hero plain" id="top"><div class="container">
   <p class="kicker">Evaluations</p>
   <h1>FrontierEval</h1>
-  <p class="statement">Benchmarks for frontier AI agents. <span>AIChipBench tests whether LLM coding agents can build correct AI accelerator hardware.</span></p>
-  <div class="cta"><a class="pill solid" href="https://frontiereval.github.io/AIChipBench/">AIChipBench &nearr;</a><a class="pill" href="https://github.com/frontiereval">GitHub &nearr;</a></div>
-  <ul class="stats">
-    <li><b>9,136</b><span>agent attempts in AIChipBench</span></li>
-    <li><b>4</b><span>coding agents on the same task instances</span></li>
-    <li><b>12</b><span>correctness tasks on seven language-model decoders</span></li>
-    <li><b>4</b><span>PPA targets</span></li>
-  </ul>
+  <p class="statement">Benchmarks for frontier AI agents. <span>Real engineering tasks, graded against exact specifications on held-out tests.</span></p>
+  <div class="cta"><a class="pill solid" href="#benchmarks">Benchmarks &darr;</a><a class="pill" href="https://github.com/frontiereval">GitHub &nearr;</a></div>
 </div></header>
 
 <main id="main">
-<section class="section" id="benchmarks"><div class="container split">
-  <div class="side"><span class="idx">01</span><h2>Benchmarks</h2></div>
-  <div class="body">
-    <div class="index">
-      <a class="entry" href="https://frontiereval.github.io/AIChipBench/">
-        <div><h3>AIChipBench</h3><div class="meta">LLM coding agents &middot; RTL &middot; AI accelerators</div></div>
-        <p>Agents implement quantized Qwen3.5, Gemma 3, Gemma 4, and Llama 3.2 decoders in synthesizable RTL. An integer reference specifies the outputs and the stored state at every decoding step, and frozen designs are graded on held-out sequences, resets, memory stalls, and synthesis.</p>
-        <span class="go" aria-hidden="true">&nearr;</span>
-      </a>
-    </div>
-    <figure><a class="frame" href="assets/aichipbench-overview.svg" aria-label="Open full-size image: one agent attempt in AIChipBench."><img src="assets/aichipbench-overview.svg" alt="One agent attempt in AIChipBench: task inputs, the agent's edit-and-test loop against public tests, the frozen design passing an isolated evaluator, and the reported rates and cost." width="4278" height="1449" decoding="async"></a><figcaption>One agent attempt in AIChipBench.</figcaption></figure>
-    <div class="actions"><a class="btn solid" href="https://frontiereval.github.io/AIChipBench/">Project page &nearr;</a><a class="btn" href="https://github.com/frontiereval/AIChipBench">GitHub &nearr;</a></div>
+<section class="section" id="benchmarks"><div class="container">
+  <div class="head"><h2>Benchmarks</h2><span class="count">01 benchmark</span></div>
+  <div class="list">
+      <!-- One benchmark. To add another, copy this article above it and renumber. -->
+      <article class="bench reveal">
+        <div>
+          <div class="no"><span>01</span><span>2026</span></div>
+          <h3><a href="https://frontiereval.github.io/AIChipBench/">AIChipBench</a></h3>
+          <div class="tags">LLM coding agents &middot; RTL &middot; AI accelerators</div>
+          <p>Agents implement quantized Qwen3.5, Gemma 3, Gemma 4, and Llama 3.2 decoders in synthesizable RTL. An integer reference specifies the outputs and the stored state at every decoding step, and frozen designs are graded on held-out sequences, resets, memory stalls, and synthesis.</p>
+          <div class="links"><a class="btn solid" href="https://frontiereval.github.io/AIChipBench/">Project page &nearr;</a><a class="btn" href="https://github.com/frontiereval/AIChipBench">GitHub &nearr;</a></div>
+        </div>
+        <figure><a class="frame" href="https://frontiereval.github.io/AIChipBench/" aria-label="Open the AIChipBench project page."><img src="assets/aichipbench-overview.svg" alt="One agent attempt in AIChipBench: task inputs, the agent's edit-and-test loop against public tests, the frozen design passing an isolated evaluator, and the reported rates and cost." width="4278" height="1449" loading="lazy" decoding="async"></a></figure>
+      </article>
   </div>
 </div></section>
 </main>
 
 <footer><div class="container">
-  <div class="l"><a href="https://frontiereval.github.io/AIChipBench/">AIChipBench</a><a href="https://github.com/frontiereval">GitHub</a><a href="#top">Top &uarr;</a></div>
+  <div class="l"><a href="#benchmarks">Benchmarks</a><a href="https://github.com/frontiereval">GitHub</a><a href="#top">Top &uarr;</a></div>
   <div class="c">&copy; 2026 FrontierEval</div>
 </div></footer>
 <script>
